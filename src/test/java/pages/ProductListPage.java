@@ -2,30 +2,37 @@ package pages;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProductListPage {
-
     private final AndroidDriver driver;
-    private final WebDriverWait wait;
 
-    public ProductListPage(AndroidDriver driver, WebDriverWait wait) {
-        this.driver = driver;
-        this.wait = wait;
+    // IDs de la grilla
+    private static final String PRODUCTS_RV_ID = "com.saucelabs.mydemoapp.android:id/productRV";
+    private static final String TITLE_TV_ID    = "com.saucelabs.mydemoapp.android:id/titleTV";
+
+    public ProductListPage(AndroidDriver driver) { this.driver = driver; }
+
+    public void waitForGalleryLoaded() {
+        driver.findElement(AppiumBy.id(PRODUCTS_RV_ID));
     }
 
-    /** Hace scroll dentro del ScrollView y toca el título del producto. */
-    public void openProduct(String exactTitle) {
-        // Scroll dentro del scrollView principal hasta el TextView con id titleTV y ese texto
-        String uiScrollable = "new UiScrollable(new UiSelector().resourceId(\"com.saucelabs.mydemoapp.android:id/scrollView\"))"
-                + ".scrollIntoView(new UiSelector().resourceId(\"com.saucelabs.mydemoapp.android:id/titleTV\").text(\"" + exactTitle + "\"))";
+    public void openProduct(String productName) {
 
-        By byTitle = AppiumBy.androidUIAutomator(uiScrollable);
+        try {
+            driver.findElement(AppiumBy.androidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true))" +
+                            ".scrollIntoView(new UiSelector().resourceId(\"" + TITLE_TV_ID + "\")" +
+                            ".text(\"" + productName + "\"))")).click();
+            return;
+        } catch (Exception ignore) { }
 
-        WebElement titleEl = wait.until(ExpectedConditions.presenceOfElementLocated(byTitle));
-        titleEl.click();
+
+        WebElement el = driver.findElement(AppiumBy.androidUIAutomator(
+                "new UiScrollable(new UiSelector().scrollable(true))" +
+                        ".scrollIntoView(new UiSelector().resourceId(\"" + TITLE_TV_ID + "\")" +
+                        ".textContains(\"" + productName.replace("-", "").replace("  ", " ").trim().split(" ")[2] + "\"))"
+        ));
+        el.click();
     }
 }

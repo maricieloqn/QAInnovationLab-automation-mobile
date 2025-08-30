@@ -15,8 +15,8 @@ public class DriverManager {
                 UiAutomator2Options opts = new UiAutomator2Options()
                         .setPlatformName("Android")
                         .setAutomationName("UiAutomator2")
-                        .setUdid("emulator-5554")              // igual que ADB
-                        .setDeviceName("Nexus S")              // texto libre
+                        .setUdid("emulator-5554")
+                        .setDeviceName("Nexus S")
                         .setAppPackage("com.saucelabs.mydemoapp.android")
                         .setAppActivity("com.saucelabs.mydemoapp.android.view.activities.MainActivity")
                         .setAppWaitActivity("*")

@@ -26,13 +26,12 @@ public class CartStepDef {
 
     @Given("estoy en la aplicación de SauceLabs")
     public void estoy_en_la_aplicacion_de_sauce_labs() {
+
         cartSteps.openAppAndValidateGallery();
     }
 
     @And("valido que carguen correctamente los productos en la galeria")
     public void valido_que_carguen_correctamente_los_productos_en_la_galeria() {
-        // En este ejemplo, la validación básica ya se hace al abrir la app.
-        // Si quieres validar algo extra, puedes añadirlo a CartSteps.
     }
 
     @When("agrego {int} del siguiente producto {string}")
